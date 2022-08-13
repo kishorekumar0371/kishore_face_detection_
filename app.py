@@ -107,6 +107,57 @@ def ann():
 
 
 #----------------------Image Classification cat/ Dog------------------------------
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.layers import MaxPooling2D
+from tensorflow.keras.layers import Flatten
+from tensorflow.keras.layers import Dense
+import tensorflow.keras
+
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
+train_datagen = ImageDataGenerator(rescale = 1./255,
+                                   shear_range = 0.2,
+                                   zoom_range = 0.2,
+                                   horizontal_flip = True)
+
+test_datagen = ImageDataGenerator(rescale = 1./255)
+file= st.file_uploader("Please upload image", type=("jpg", "png"))
+training_set = train_datagen.flow_from_directory('static/data-preprocess/new/train',
+                                                 target_size = (64, 64),
+                                                 batch_size = 32,
+                                                 class_mode = 'categorical')
+test_set = test_datagen.flow_from_directory('static/data-preprocess/new/val',
+                                            target_size = (64, 64),
+                                            batch_size = 32,
+                                            class_mode = 'binary')
+
+TrainClasses=training_set.class_indices
+ResultMap={}
+for faceValue,faceName in zip(TrainClasses.values(),TrainClasses.keys()):
+    ResultMap[faceValue]=faceName
+import pickle
+with open("ResultsMap.pkl", 'wb') as fileWriteStream:
+    pickle.dump(ResultMap, fileWriteStream)
+ 
+import cv2
+from  PIL import Image, ImageOps
+def import_and_predict(image_data):
+  #x = cv2.resize(image_data, (48, 48)) 
+  #img = image.load_img(image_data, target_size=(48, 48))
+  #x = image.img_to_array(img)
+  size=(64, 64)
+  image=ImageOps.fit(image_data, size, Image.ANTIALIAS)
+  img=np.asarray(image)
+  img_reshape=np.expand_dims(img, axis=1)
+  img_reshape=img[np.newaxis,...]
+  result = model.predict(img_reshape)
+  print(result)
+  #training_set.class_indices
+  print("Prediction",ResultMap[np.argmax(result)] )
+  
+  
+  return ResultMap[np.argmax(result)]
 model_cat = load_model("static/data-preprocess/model/FDPCNN1.h5")
 
 def import_and_predict_cat(image_data):
