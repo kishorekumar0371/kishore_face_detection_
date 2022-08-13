@@ -90,7 +90,7 @@ def download_file():
 #------------------------------Download Model-------------------------------------------
 @app.route('/downloadmodel')
 def download_model():
-    path1 = "static/data-preprocess/model/model.pkl"
+    path1 = "static/data-preprocess/model/kkCNN1.h5"
     return send_file(path1,as_attachment=True)
 
 #------------------------------About us-------------------------------------------
