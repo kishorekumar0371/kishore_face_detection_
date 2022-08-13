@@ -121,15 +121,10 @@ def import_and_predict_cat(image_data):
   result = model_cat .predict(img_reshape)
   print(result)
   #training_set.class_indices
-  if result[0][0] == 1:
-    prediction = "Dog" 
-    
-  else:
-    prediction = 'Cat'
-    #x = np.expand_dims(x, axis=1)
+   print("Prediction",ResultMap[np.argmax(result)] )
   
   
-  return prediction
+  return ResultMap[np.argmax(result)]
 
 
 @app.route('/ann/cat/cat')
