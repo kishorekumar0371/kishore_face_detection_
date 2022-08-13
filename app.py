@@ -84,7 +84,7 @@ def model_predict(file_path, model):
 
 @app.route('/downloadNewDataset')
 def download_file():
-    path1 = "static/data-preprocess/new/trained_dataset.csv"
+    path1 = "static/data-preprocess/new/train"
     return send_file(path1,as_attachment=True)
 
 #------------------------------Download Model-------------------------------------------
